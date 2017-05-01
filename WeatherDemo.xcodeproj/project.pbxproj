@@ -17,6 +17,7 @@
 		018377581EB73CE5002F6731 /* ResultsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018377571EB73CE5002F6731 /* ResultsTableViewCell.swift */; };
 		0183775B1EB73F61002F6731 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0183775A1EB73F61002F6731 /* WeatherService.swift */; };
 		0183775D1EB77027002F6731 /* WeatherIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0183775C1EB77027002F6731 /* WeatherIcons.xcassets */; };
+		018377601EB7989C002F6731 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0183775F1EB7989C002F6731 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		018377571EB73CE5002F6731 /* ResultsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultsTableViewCell.swift; sourceTree = "<group>"; };
 		0183775A1EB73F61002F6731 /* WeatherService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
 		0183775C1EB77027002F6731 /* WeatherIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = WeatherIcons.xcassets; sourceTree = "<group>"; };
+		0183775F1EB7989C002F6731 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				018377601EB7989C002F6731 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +90,7 @@
 				0183773D1EB737D6002F6731 /* WeatherDemoTests */,
 				018377481EB737D6002F6731 /* WeatherDemoUITests */,
 				018377271EB737D6002F6731 /* Products */,
+				0183775E1EB7989C002F6731 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -140,6 +144,14 @@
 				0183775A1EB73F61002F6731 /* WeatherService.swift */,
 			);
 			name = Classes;
+			sourceTree = "<group>";
+		};
+		0183775E1EB7989C002F6731 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0183775F1EB7989C002F6731 /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -211,6 +223,11 @@
 					018377251EB737D6002F6731 = {
 						CreatedOnToolsVersion = 8.3.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					018377391EB737D6002F6731 = {
 						CreatedOnToolsVersion = 8.3.2;
