@@ -31,6 +31,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         self.response = WeatherService.cachedResponse
         updateMapAnnotations(animated: false)
+        
+        if self.response == nil {
+            self.textField.text = "Reading"
+            search(self.textField.text!)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
