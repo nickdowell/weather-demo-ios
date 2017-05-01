@@ -12,6 +12,16 @@ import CoreLocation
 struct WeatherService {
     
     let urlSession = URLSession(configuration: URLSessionConfiguration.ephemeral)
+    
+    static let cachedResponseLocation: URL = URL(fileURLWithPath:
+        NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0], isDirectory: true)
+        .appendingPathComponent("api.openweathermap.org.json")
+    
+    static var cachedResponse: Response? {
+        get {
+            return Response(data: try? Data(contentsOf: cachedResponseLocation))
+        }
+    }
 
     func fetchCities(near coordinate: CLLocationCoordinate2D, completionHandler: @escaping (Response?) -> Swift.Void) {
         //
@@ -19,20 +29,28 @@ struct WeatherService {
         //
         let url = URL(string: "http://api.openweathermap.org/data/2.5/find?lat=\(coordinate.latitude)&lon=\(coordinate.longitude)&cnt=15&appid=56cb4841fe049d987586aea57480ceb9")
         urlSession.dataTask(with: url!) { (data, response, error) in
-            guard let data = data,
-                let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-                let apiResponse = Response(json: json!)
+            guard let apiResponse = Response(data: data)
                 else {
                     completionHandler(nil)
                     return
             }
+            try? data?.write(to: WeatherService.cachedResponseLocation, options: [.atomic])
             completionHandler(apiResponse)
             }.resume()
     }
 
     struct Response {
         let list: [Item]
-        
+
+        init?(data: Data?) {
+            if let data = data,
+                let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                self.init(json: json!)
+            } else {
+                return nil
+            }
+        }
+
         init?(json: [String: Any]) {
             guard
                 let listJSON    = json["list"] as? [[String: Any]]
