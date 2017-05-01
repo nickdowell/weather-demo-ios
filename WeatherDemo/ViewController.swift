@@ -13,8 +13,9 @@ import MapKit
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var tableViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomPanelView: UIView!
     @IBOutlet weak var resultsTableView: UITableView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     let weatherService = WeatherService()
     var response: WeatherService.Response?
@@ -22,7 +23,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.mapView.layoutMargins = UIEdgeInsetsMake(8, 8, self.tableViewTopConstraint.constant, 8)
+        let layoutMargins = UIEdgeInsetsMake(8, 8, self.bottomPanelView.frame.size.height, 8)
+        self.mapView.layoutMargins = layoutMargins
         
         self.response = WeatherService.cachedResponse
         updateMapAnnotations(animated: false)
@@ -35,7 +37,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.selectAll(nil)
+        textField.text = nil
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -55,11 +57,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func fetchWeatherData(near coordinate: CLLocationCoordinate2D) {
+        self.activityIndicator.startAnimating()
+        self.resultsTableView.isHidden = true
+        
         weatherService.fetchCities(near: coordinate) { (response) in
             DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
                 if let response = response {
                     self.response = response
                     self.resultsTableView.reloadData()
+                    self.resultsTableView.isHidden = false
                     self.updateMapAnnotations(animated: true)
                 }
             }
