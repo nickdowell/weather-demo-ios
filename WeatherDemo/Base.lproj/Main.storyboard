@@ -37,7 +37,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="J2V-y1-yyd">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" pitchEnabled="NO" showsBuildings="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J2V-y1-yyd">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="Njl-Up-f24"/>
@@ -60,7 +60,7 @@
                                                     <rect key="frame" x="0.0" y="28" width="375" height="62"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5qX-CW-YbS" id="ewB-FS-KDG">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="61.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="62"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="09d" translatesAutoresizingMaskIntoConstraints="NO" id="Www-hL-RIR">
@@ -121,7 +121,7 @@
                                             </connections>
                                         </tableView>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3gF-53-4es">
-                                            <rect key="frame" x="8" y="8" width="359" height="30"/>
+                                            <rect key="frame" x="8" y="8" width="327" height="30"/>
                                             <gestureRecognizers/>
                                             <nil key="textColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -134,18 +134,27 @@
                                             <rect key="frame" x="169.5" y="136" width="37" height="37"/>
                                             <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         </activityIndicatorView>
+                                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eIX-ja-9Q6">
+                                            <rect key="frame" x="343" y="11" width="24" height="24"/>
+                                            <state key="normal" image="ic_near_me"/>
+                                            <connections>
+                                                <action selector="searchUserLocation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MZL-LU-I91"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
+                                        <constraint firstItem="eIX-ja-9Q6" firstAttribute="centerY" secondItem="3gF-53-4es" secondAttribute="centerY" id="1Zt-Yz-cVD"/>
                                         <constraint firstItem="ULe-a6-r7f" firstAttribute="leading" secondItem="ljU-yr-UPJ" secondAttribute="leading" id="6gN-sO-uwc"/>
+                                        <constraint firstItem="eIX-ja-9Q6" firstAttribute="leading" secondItem="3gF-53-4es" secondAttribute="trailing" constant="8" id="8ba-Zd-ByO"/>
                                         <constraint firstAttribute="bottom" secondItem="ULe-a6-r7f" secondAttribute="bottom" id="Gal-4V-PuM"/>
+                                        <constraint firstAttribute="trailing" secondItem="eIX-ja-9Q6" secondAttribute="trailing" constant="8" id="RfA-Fn-S7g"/>
                                         <constraint firstItem="Lfn-Q7-ciU" firstAttribute="centerX" secondItem="ULe-a6-r7f" secondAttribute="centerX" id="a3M-sw-JWm"/>
                                         <constraint firstItem="3gF-53-4es" firstAttribute="top" secondItem="ljU-yr-UPJ" secondAttribute="top" constant="8" id="cFQ-lq-Wnn"/>
                                         <constraint firstItem="3gF-53-4es" firstAttribute="leading" secondItem="ljU-yr-UPJ" secondAttribute="leading" constant="8" id="fLr-WA-BOV"/>
                                         <constraint firstAttribute="trailing" secondItem="ULe-a6-r7f" secondAttribute="trailing" id="fmP-WZ-ciw"/>
                                         <constraint firstItem="ULe-a6-r7f" firstAttribute="top" secondItem="3gF-53-4es" secondAttribute="bottom" constant="8" id="oMU-w5-OBT"/>
                                         <constraint firstItem="Lfn-Q7-ciU" firstAttribute="centerY" secondItem="ULe-a6-r7f" secondAttribute="centerY" id="p7j-GK-myP"/>
-                                        <constraint firstAttribute="trailing" secondItem="3gF-53-4es" secondAttribute="trailing" constant="8" id="y6Y-VV-Icp"/>
                                     </constraints>
                                 </view>
                                 <blurEffect style="extraLight"/>
@@ -171,6 +180,7 @@
                         <outlet property="bottomPanelView" destination="XCC-eo-tzZ" id="FQz-3T-P8Z"/>
                         <outlet property="mapView" destination="J2V-y1-yyd" id="Oru-6f-je9"/>
                         <outlet property="resultsTableView" destination="ULe-a6-r7f" id="5o0-Mr-K4n"/>
+                        <outlet property="textField" destination="3gF-53-4es" id="OZp-eg-5Wg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -180,6 +190,7 @@
     </scenes>
     <resources>
         <image name="09d" width="25" height="25"/>
+        <image name="ic_near_me" width="24" height="24"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

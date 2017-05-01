@@ -10,15 +10,17 @@ import UIKit
 import CoreLocation
 import MapKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, MKMapViewDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, MKMapViewDelegate, CLLocationManagerDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var bottomPanelView: UIView!
+    @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var resultsTableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     let weatherService = WeatherService()
     var response: WeatherService.Response?
+    var locationManager: CLLocationManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +36,65 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewWillAppear(animated)
         
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    @IBAction func searchUserLocation(_ button: UIButton) {
+        if self.locationManager == nil {
+            self.locationManager = CLLocationManager()
+            self.locationManager.delegate = self
+            self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        }
+
+        switch CLLocationManager.authorizationStatus() {
+        case .authorizedAlways, .authorizedWhenInUse:
+            self.locationManager.requestLocation()
+        case .notDetermined:
+            self.locationManager.requestWhenInUseAuthorization()
+        case .restricted, .denied:
+            let alertController = UIAlertController(
+                title: NSLocalizedString("Cannot access location services", comment: ""),
+                message: NSLocalizedString("To find the weather data near you, please open Settings and enable location access for this app", comment: ""),
+                preferredStyle: .alert)
+            
+            let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel)
+            alertController.addAction(cancelAction)
+            
+            let settingsAction = UIAlertAction(title: NSLocalizedString("Settings", comment: ""), style: .default, handler: { (action) in
+                if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                    UIApplication.shared.open(url)
+                }
+            })
+            alertController.addAction(settingsAction)
+            
+            self.present(alertController, animated: true)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedAlways || status == .authorizedWhenInUse {
+            requestLocation()
+        }
+    }
+    
+    func requestLocation() {
+        self.activityIndicator.startAnimating()
+        self.resultsTableView.isHidden = true
+        self.textField.text = "Current Location"
+        self.locationManager.requestLocation()
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        self.mapView.showsUserLocation = true
+        
+        if let location = locations.first {
+            fetchWeatherData(near: location.coordinate)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        self.activityIndicator.stopAnimating()
+        self.resultsTableView.isHidden = false
+        self.textField.text = nil
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -122,13 +183,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func updateMapAnnotations(animated: Bool) {
         self.mapView.removeAnnotations(self.mapView.annotations)
         
+        var annotations: [MapAnnotation] = []
         if let items = self.response?.list {
             for item in items {
-                self.mapView.addAnnotation(MapAnnotation(item))
+                annotations.append(MapAnnotation(item))
             }
         }
-        
-        self.mapView.showAnnotations(self.mapView.annotations, animated: animated)
+
+        self.mapView.addAnnotations(annotations)
+        self.mapView.showAnnotations(annotations, animated: animated)
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
