@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var resultsTableView: UITableView!
     
@@ -19,15 +19,34 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.resultsTableView.tableFooterView = UIView()
-        
         self.response = WeatherService.cachedResponse
-        
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.selectAll(nil)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        if let text = textField.text {
+            search(text)
+        }
+        return true
+    }
+    
+    func search(_ string: String) {
+        CLGeocoder().geocodeAddressString(string) { (placemarks, error) in
+            if let location = placemarks?.first?.location {
+                self.fetchWeatherData(near: location.coordinate)
+            }
+        }
+    }
+    
+    func fetchWeatherData(near coordinate: CLLocationCoordinate2D) {
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicator)
         activityIndicator.startAnimating()
-
-        let coordinate = CLLocationCoordinate2D(latitude: 51.4581857, longitude: -0.9676843)
+        
         weatherService.fetchCities(near: coordinate) { (response) in
             DispatchQueue.main.async {
                 self.navigationItem.rightBarButtonItem = nil
