@@ -220,6 +220,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func searchMapLocation() {
         if let coordinate = self.longPressCoordinate {
             self.textField.text = String(format: "%.2f,%.2f", coordinate.latitude, coordinate.longitude)
+
+            let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+            CLGeocoder().reverseGeocodeLocation(location) { (placemarks, error) in
+                if let placemark = placemarks?.first {
+                    self.textField.text = placemark.name
+                }
+            }
+
             fetchWeatherData(near: coordinate)
             self.longPressCoordinate = nil
         }
