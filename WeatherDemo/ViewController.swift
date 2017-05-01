@@ -108,7 +108,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
         if let text = textField.text {
             search(text)
         }
@@ -116,6 +115,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func search(_ string: String) {
+        self.textField.resignFirstResponder()
         CLGeocoder().geocodeAddressString(string) { (placemarks, error) in
             if let location = placemarks?.first?.location {
                 self.fetchWeatherData(near: location.coordinate)
@@ -124,6 +124,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func fetchWeatherData(near coordinate: CLLocationCoordinate2D) {
+        self.textField.resignFirstResponder()
         self.activityIndicator.startAnimating()
         self.resultsTableView.isHidden = true
         
