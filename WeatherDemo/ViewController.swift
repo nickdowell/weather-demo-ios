@@ -21,6 +21,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     let weatherService = WeatherService()
     var response: WeatherService.Response?
     var locationManager: CLLocationManager!
+    var longPressCoordinate: CLLocationCoordinate2D?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -192,6 +193,30 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         self.mapView.addAnnotations(annotations)
         self.mapView.showAnnotations(annotations, animated: animated)
+    }
+    
+    @IBAction func mapLongPress(_ recognizer: UILongPressGestureRecognizer) {
+        guard recognizer.state == .began else { return }
+
+        self.becomeFirstResponder()
+        
+        let point = recognizer.location(in: self.mapView)
+        self.longPressCoordinate = self.mapView.convert(point, toCoordinateFrom: nil)
+
+        let menuController = UIMenuController.shared
+        menuController.menuItems = [UIMenuItem(title: NSLocalizedString("Search", comment: ""), action: #selector(searchMapLocation))]
+        menuController.setTargetRect(CGRect(origin: point, size: .zero), in: self.mapView)
+        menuController.setMenuVisible(true, animated: true)
+    }
+    
+    override var canBecomeFirstResponder: Bool { get { return true } }
+    
+    func searchMapLocation() {
+        if let coordinate = self.longPressCoordinate {
+            self.textField.text = String(format: "%.2f,%.2f", coordinate.latitude, coordinate.longitude)
+            fetchWeatherData(near: coordinate)
+            self.longPressCoordinate = nil
+        }
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
