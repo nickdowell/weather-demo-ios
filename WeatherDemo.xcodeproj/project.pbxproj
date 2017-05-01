@@ -16,6 +16,7 @@
 		0183774A1EB737D6002F6731 /* WeatherDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018377491EB737D6002F6731 /* WeatherDemoUITests.swift */; };
 		018377581EB73CE5002F6731 /* ResultsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018377571EB73CE5002F6731 /* ResultsTableViewCell.swift */; };
 		0183775B1EB73F61002F6731 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0183775A1EB73F61002F6731 /* WeatherService.swift */; };
+		0183775D1EB77027002F6731 /* WeatherIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0183775C1EB77027002F6731 /* WeatherIcons.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		0183774B1EB737D6002F6731 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		018377571EB73CE5002F6731 /* ResultsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultsTableViewCell.swift; sourceTree = "<group>"; };
 		0183775A1EB73F61002F6731 /* WeatherService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
+		0183775C1EB77027002F6731 /* WeatherIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = WeatherIcons.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				018377351EB737D6002F6731 /* Info.plist */,
 				018377321EB737D6002F6731 /* LaunchScreen.storyboard */,
 				0183772D1EB737D6002F6731 /* Main.storyboard */,
+				0183775C1EB77027002F6731 /* WeatherIcons.xcassets */,
 			);
 			path = WeatherDemo;
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				018377341EB737D6002F6731 /* LaunchScreen.storyboard in Resources */,
+				0183775D1EB77027002F6731 /* WeatherIcons.xcassets in Resources */,
 				018377311EB737D6002F6731 /* Assets.xcassets in Resources */,
 				0183772F1EB737D6002F6731 /* Main.storyboard in Resources */,
 			);

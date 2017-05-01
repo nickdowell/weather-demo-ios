@@ -66,10 +66,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let cell = tableView.dequeueReusableCell(withIdentifier: "ResultsTableViewCell", for: indexPath) as! ResultsTableViewCell
         
         if let item = self.response?.list[indexPath.row] {
+            cell.iconImageView.image = UIImage(named: item.iconCode)
             cell.nameLabel.text = item.name
             cell.minTempLabel.text = "↧ \(formatTemperature(kelvin: item.tempMin))"
             cell.maxTempLabel.text = "↥ \(formatTemperature(kelvin: item.tempMax))"
-            cell.weatherLabel.text = item.weatherDescription
+            cell.weatherLabel.text = item.weatherMain
         }
         
         return cell

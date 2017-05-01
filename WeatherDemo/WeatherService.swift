@@ -75,8 +75,9 @@ struct WeatherService {
         let tempMax: Double
         let tempMin: Double
         let location: CLLocation
+        let weatherMain: String
         let weatherDescription: String
-        let icon: URL
+        let iconCode: String
         
         init?(json: [String: Any]) {
             guard
@@ -88,9 +89,9 @@ struct WeatherService {
                 let tempMax = main["temp_max"] as? Double,
                 let tempMin = main["temp_min"] as? Double,
                 let weather = (json["weather"] as? [[String: Any]])?.first,
+                let weatherMain = weather["main"] as? String,
                 let description = weather["description"] as? String,
-                let iconCode = weather["icon"] as? String,
-                let iconURL = URL(string: "http://openweathermap.org/img/w/\(iconCode).png")
+                let iconCode = weather["icon"] as? String
                 else {
                     return nil
             }
@@ -99,8 +100,9 @@ struct WeatherService {
             self.tempMax = tempMax
             self.tempMin = tempMin
             self.location = CLLocation(latitude: lat, longitude: lon)
+            self.weatherMain = weatherMain
             self.weatherDescription = description
-            self.icon = iconURL
+            self.iconCode = iconCode
         }
     }
 }
