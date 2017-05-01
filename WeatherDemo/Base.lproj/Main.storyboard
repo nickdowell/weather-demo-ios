@@ -37,10 +37,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="J2V-y1-yyd">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Njl-Up-f24"/>
+                                </connections>
+                            </mapView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XCC-eo-tzZ">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="320" width="375" height="347"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="ljU-yr-UPJ">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="347"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3gF-53-4es">
@@ -53,14 +59,14 @@
                                             </connections>
                                         </textField>
                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="62" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ULe-a6-r7f">
-                                            <rect key="frame" x="0.0" y="46" width="375" height="557"/>
+                                            <rect key="frame" x="0.0" y="46" width="375" height="301"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <prototypes>
                                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ResultsTableViewCell" id="5qX-CW-YbS" customClass="ResultsTableViewCell" customModule="WeatherDemo" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="28" width="375" height="62"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5qX-CW-YbS" id="ewB-FS-KDG">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="61.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="62"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="09d" translatesAutoresizingMaskIntoConstraints="NO" id="Www-hL-RIR">
@@ -137,17 +143,24 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="J2V-y1-yyd" secondAttribute="trailing" id="H4x-iL-Sxh"/>
+                            <constraint firstItem="J2V-y1-yyd" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="J0n-PP-F6z"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="J2V-y1-yyd" secondAttribute="bottom" id="Jmb-GG-2Xt"/>
                             <constraint firstItem="XCC-eo-tzZ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="L6O-NV-RGb"/>
-                            <constraint firstItem="XCC-eo-tzZ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="QX7-Ux-SMa"/>
+                            <constraint firstItem="XCC-eo-tzZ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="300" id="QX7-Ux-SMa"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="XCC-eo-tzZ" secondAttribute="bottom" id="dbs-9r-Nmc"/>
                             <constraint firstAttribute="trailing" secondItem="XCC-eo-tzZ" secondAttribute="trailing" id="f7E-8b-pVy"/>
+                            <constraint firstItem="J2V-y1-yyd" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="vH3-qt-HvV"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="4bS-hi-n0F">
                         <nil key="title"/>
                     </navigationItem>
+                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
+                        <outlet property="mapView" destination="J2V-y1-yyd" id="Oru-6f-je9"/>
                         <outlet property="resultsTableView" destination="ULe-a6-r7f" id="5o0-Mr-K4n"/>
+                        <outlet property="tableViewTopConstraint" destination="QX7-Ux-SMa" id="HGF-Xp-7RM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
