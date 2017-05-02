@@ -143,6 +143,9 @@
                                                 <action selector="searchUserLocation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MZL-LU-I91"/>
                                             </connections>
                                         </button>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="separator_h" translatesAutoresizingMaskIntoConstraints="NO" id="J96-77-d4H">
+                                            <rect key="frame" x="0.0" y="46" width="375" height="1"/>
+                                        </imageView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
@@ -150,9 +153,12 @@
                                         <constraint firstItem="ULe-a6-r7f" firstAttribute="leading" secondItem="ljU-yr-UPJ" secondAttribute="leading" id="6gN-sO-uwc"/>
                                         <constraint firstItem="eIX-ja-9Q6" firstAttribute="leading" secondItem="3gF-53-4es" secondAttribute="trailing" constant="8" id="8ba-Zd-ByO"/>
                                         <constraint firstAttribute="bottom" secondItem="ULe-a6-r7f" secondAttribute="bottom" id="Gal-4V-PuM"/>
+                                        <constraint firstItem="J96-77-d4H" firstAttribute="top" secondItem="ULe-a6-r7f" secondAttribute="top" id="H0I-M0-RPF"/>
+                                        <constraint firstAttribute="trailing" secondItem="J96-77-d4H" secondAttribute="trailing" id="HJf-sV-pdR"/>
                                         <constraint firstAttribute="trailing" secondItem="eIX-ja-9Q6" secondAttribute="trailing" constant="8" id="RfA-Fn-S7g"/>
                                         <constraint firstItem="Lfn-Q7-ciU" firstAttribute="centerX" secondItem="ULe-a6-r7f" secondAttribute="centerX" id="a3M-sw-JWm"/>
                                         <constraint firstItem="3gF-53-4es" firstAttribute="top" secondItem="ljU-yr-UPJ" secondAttribute="top" constant="8" id="cFQ-lq-Wnn"/>
+                                        <constraint firstItem="J96-77-d4H" firstAttribute="leading" secondItem="ljU-yr-UPJ" secondAttribute="leading" id="dYl-6n-wdE"/>
                                         <constraint firstItem="3gF-53-4es" firstAttribute="leading" secondItem="ljU-yr-UPJ" secondAttribute="leading" constant="8" id="fLr-WA-BOV"/>
                                         <constraint firstAttribute="trailing" secondItem="ULe-a6-r7f" secondAttribute="trailing" id="fmP-WZ-ciw"/>
                                         <constraint firstItem="ULe-a6-r7f" firstAttribute="top" secondItem="3gF-53-4es" secondAttribute="bottom" constant="8" id="oMU-w5-OBT"/>
@@ -198,6 +204,7 @@
     <resources>
         <image name="09d" width="25" height="25"/>
         <image name="ic_near_me" width="24" height="24"/>
+        <image name="separator_h" width="320" height="1"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
