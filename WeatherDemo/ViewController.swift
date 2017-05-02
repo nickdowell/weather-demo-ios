@@ -29,6 +29,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let layoutMargins = UIEdgeInsetsMake(8, 8, self.bottomPanelView.frame.size.height, 8)
         self.mapView.layoutMargins = layoutMargins
         
+        self.bottomPanelView.layer.shadowRadius = 5
+        self.bottomPanelView.layer.shadowOpacity = 0.2
+        self.bottomPanelView.layer.shadowColor = UIColor.black.cgColor
+        
         self.response = WeatherService.cachedResponse
         updateMapAnnotations(animated: false)
         
