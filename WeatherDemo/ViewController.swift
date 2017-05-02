@@ -53,7 +53,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         switch CLLocationManager.authorizationStatus() {
         case .authorizedAlways, .authorizedWhenInUse:
-            self.locationManager.requestLocation()
+            requestLocation()
         case .notDetermined:
             self.locationManager.requestWhenInUseAuthorization()
         case .restricted, .denied:
