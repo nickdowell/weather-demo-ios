@@ -36,6 +36,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         self.textField.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(panGesture(_:))))
         
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame(_:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+        
         self.response = WeatherService.cachedResponse
         updateMapAnnotations(animated: false)
         
@@ -62,12 +64,33 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func setResultsTableViewHeight(_ height: CGFloat) {
-        self.resultsTableViewHeightConstraint.constant = max(216, min(height, self.view.frame.height - 100))
+        self.resultsTableViewHeightConstraint.constant = max(0, min(height, self.view.frame.height - 100))
         self.view.layoutIfNeeded()
         let layoutMargins = UIEdgeInsetsMake(8, 8, self.bottomPanelView.frame.size.height, 8)
         self.mapView.layoutMargins = layoutMargins
     }
-    
+
+    func keyboardWillChangeFrame(_ notification: Notification) {
+        let userInfo = notification.userInfo!
+        
+        let keyboardEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let viewFrame = self.view.convert(self.view.bounds, to: nil)
+        let intersection = keyboardEndFrame.intersection(viewFrame);
+        
+        if intersection.height <= self.resultsTableViewHeightConstraint.constant {
+            return
+        }
+        
+        UIView.beginAnimations(nil, context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: ((userInfo[UIKeyboardAnimationCurveUserInfoKey] as! NSNumber).intValue))!);
+        UIView.setAnimationDuration((userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue)
+        
+        setResultsTableViewHeight(intersection.height)
+        
+        UIView.commitAnimations()
+    }
+
     @IBAction func searchUserLocation(_ button: UIButton) {
         if self.locationManager == nil {
             self.locationManager = CLLocationManager()
