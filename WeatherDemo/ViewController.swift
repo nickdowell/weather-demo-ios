@@ -14,6 +14,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var bottomPanelView: UIView!
+    @IBOutlet weak var resultsTableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var resultsTableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -22,16 +23,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var response: WeatherService.Response?
     var locationManager: CLLocationManager!
     var longPressCoordinate: CLLocationCoordinate2D?
+    var resultsTableViewDragStartHeight: CGFloat = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let layoutMargins = UIEdgeInsetsMake(8, 8, self.bottomPanelView.frame.size.height, 8)
-        self.mapView.layoutMargins = layoutMargins
+        setResultsTableViewHeight(216)
         
         self.bottomPanelView.layer.shadowRadius = 5
         self.bottomPanelView.layer.shadowOpacity = 0.2
         self.bottomPanelView.layer.shadowColor = UIColor.black.cgColor
+        
+        self.textField.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(panGesture(_:))))
         
         self.response = WeatherService.cachedResponse
         updateMapAnnotations(animated: false)
@@ -46,6 +49,23 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewWillAppear(animated)
         
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    func panGesture(_ pan: UIPanGestureRecognizer) {
+        switch pan.state {
+        case .began:
+            self.resultsTableViewDragStartHeight = self.resultsTableViewHeightConstraint.constant
+        case .changed:
+            setResultsTableViewHeight(self.resultsTableViewDragStartHeight - pan.translation(in: self.view).y)
+        default: break
+        }
+    }
+    
+    func setResultsTableViewHeight(_ height: CGFloat) {
+        self.resultsTableViewHeightConstraint.constant = max(216, min(height, self.view.frame.height - 100))
+        self.view.layoutIfNeeded()
+        let layoutMargins = UIEdgeInsetsMake(8, 8, self.bottomPanelView.frame.size.height, 8)
+        self.mapView.layoutMargins = layoutMargins
     }
     
     @IBAction func searchUserLocation(_ button: UIButton) {

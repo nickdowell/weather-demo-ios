@@ -188,6 +188,7 @@
                         <outlet property="bottomPanelView" destination="XCC-eo-tzZ" id="FQz-3T-P8Z"/>
                         <outlet property="mapView" destination="J2V-y1-yyd" id="Oru-6f-je9"/>
                         <outlet property="resultsTableView" destination="ULe-a6-r7f" id="5o0-Mr-K4n"/>
+                        <outlet property="resultsTableViewHeightConstraint" destination="LTv-hG-lqP" id="CWz-60-Ab5"/>
                         <outlet property="textField" destination="3gF-53-4es" id="OZp-eg-5Wg"/>
                     </connections>
                 </viewController>
