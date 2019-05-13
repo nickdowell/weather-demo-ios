@@ -45,7 +45,7 @@ struct WeatherService {
         init?(data: Data?) {
             if let data = data,
                 let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                self.init(json: json!)
+                self.init(json: json)
             } else {
                 return nil
             }

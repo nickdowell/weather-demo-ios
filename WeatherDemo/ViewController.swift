@@ -36,7 +36,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         self.textField.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(panGesture(_:))))
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame(_:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
         self.response = WeatherService.cachedResponse
         updateMapAnnotations(animated: false)
@@ -53,6 +53,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
+    @objc
     func panGesture(_ pan: UIPanGestureRecognizer) {
         switch pan.state {
         case .began:
@@ -66,14 +67,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func setResultsTableViewHeight(_ height: CGFloat) {
         self.resultsTableViewHeightConstraint.constant = max(0, min(height, self.view.frame.height - 100))
         self.view.layoutIfNeeded()
-        let layoutMargins = UIEdgeInsetsMake(8, 8, self.bottomPanelView.frame.size.height, 8)
+        let layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: self.bottomPanelView.frame.size.height, right: 8)
         self.mapView.layoutMargins = layoutMargins
     }
 
+    @objc
     func keyboardWillChangeFrame(_ notification: Notification) {
         let userInfo = notification.userInfo!
         
-        let keyboardEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let keyboardEndFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         let viewFrame = self.view.convert(self.view.bounds, to: nil)
         let intersection = keyboardEndFrame.intersection(viewFrame);
         
@@ -83,8 +85,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         UIView.beginAnimations(nil, context: nil)
         UIView.setAnimationBeginsFromCurrentState(true)
-        UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: ((userInfo[UIKeyboardAnimationCurveUserInfoKey] as! NSNumber).intValue))!);
-        UIView.setAnimationDuration((userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue)
+        UIView.setAnimationCurve(UIView.AnimationCurve(rawValue: ((userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as! NSNumber).intValue))!);
+        UIView.setAnimationDuration((userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue)
         
         setResultsTableViewHeight(intersection.height)
         
@@ -99,10 +101,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
 
         switch CLLocationManager.authorizationStatus() {
+            
         case .authorizedAlways, .authorizedWhenInUse:
             requestLocation()
+            
         case .notDetermined:
             self.locationManager.requestWhenInUseAuthorization()
+            
         case .restricted, .denied:
             let alertController = UIAlertController(
                 title: NSLocalizedString("Cannot access location services", comment: ""),
@@ -113,13 +118,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             alertController.addAction(cancelAction)
             
             let settingsAction = UIAlertAction(title: NSLocalizedString("Settings", comment: ""), style: .default, handler: { (action) in
-                if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                if let url = URL(string: UIApplication.openSettingsURLString) {
                     UIApplication.shared.open(url)
                 }
             })
             alertController.addAction(settingsAction)
             
             self.present(alertController, animated: true)
+            
+        @unknown default:
+            fatalError()
         }
     }
     
@@ -264,6 +272,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override var canBecomeFirstResponder: Bool { get { return true } }
     
+    @objc
     func searchMapLocation() {
         if let coordinate = self.longPressCoordinate {
             self.textField.text = String(format: "%.2f,%.2f", coordinate.latitude, coordinate.longitude)
