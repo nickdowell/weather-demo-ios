@@ -66,7 +66,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func setResultsTableViewHeight(_ height: CGFloat) {
         self.resultsTableViewHeightConstraint.constant = max(0, min(height, self.view.frame.height - 100))
-        self.view.layoutIfNeeded()
+        if self.view.superview != nil {
+            self.view.layoutIfNeeded()
+        }
         let layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: self.bottomPanelView.frame.size.height, right: 8)
         self.mapView.layoutMargins = layoutMargins
     }
